@@ -47,22 +47,29 @@ export const getUserProfile = async (userId) => {
 // 대화 목록 가져오기
 export const getUserConversations = async (userId) => {
   try {
+    console.log('사용자 대화 목록 조회 시작:', userId);
     const q = query(
       collection(firestore, 'conversations'),
       where('userId', '==', userId),
       orderBy('createdAt', 'desc')
     );
     
+    console.log('쉷업한 쿼리:', q);
     const querySnapshot = await getDocs(q);
+    console.log('쿼리 결과 크기:', querySnapshot.size);
+    
     const conversations = [];
     
     querySnapshot.forEach((doc) => {
+      const data = doc.data();
+      console.log('가져온 대화 데이터:', doc.id, data);
       conversations.push({
         id: doc.id,
-        ...doc.data()
+        ...data
       });
     });
     
+    console.log('최종 대화 목록:', conversations.length);
     return { data: conversations, error: null };
   } catch (error) {
     console.error('대화 목록 조회 오류:', error.message);
@@ -112,18 +119,25 @@ export const deleteConversation = async (conversationId) => {
 // 대화 정보 가져오기
 export const getConversation = async (conversationId) => {
   try {
+    console.log('대화 가져오기 시작:', conversationId);
     const conversationRef = doc(firestore, 'conversations', conversationId);
     const conversationSnap = await getDoc(conversationRef);
     
     if (conversationSnap.exists()) {
-      return { 
-        data: { 
-          id: conversationSnap.id, 
-          ...conversationSnap.data() 
-        }, 
-        error: null 
+      const data = conversationSnap.data();
+      console.log('가져온 대화 데이터:', data);
+      console.log('대화 메시지 수:', data.messages ? data.messages.length : 0);
+      
+      // 메시지 에 아무것도 없는 경우 빈 배열로 초기화
+      const formattedData = {
+        id: conversationSnap.id,
+        ...data,
+        messages: data.messages || []
       };
+      
+      return { data: formattedData, error: null };
     } else {
+      console.log('대화를 찾을 수 없음:', conversationId);
       return { data: null, error: '대화를 찾을 수 없습니다.' };
     }
   } catch (error) {
