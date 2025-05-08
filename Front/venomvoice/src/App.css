@@ -1,0 +1,324 @@
+/* 기본 스타일 리셋 */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Pretendard', 'Noto Sans KR', sans-serif;
+  background-color: #f4f7f9;
+  color: #333;
+  line-height: 1.6;
+}
+
+button {
+  cursor: pointer;
+}
+
+/* 앱 레이아웃 */
+.app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.app-header {
+  background-color: #222831;
+  color: white;
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.app-header h1 {
+  font-size: 1.8rem;
+  font-weight: 600;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.user-info button {
+  background-color: transparent;
+  border: 1px solid #eee;
+  color: white;
+  padding: 0.3rem 0.8rem;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+}
+
+.user-info button:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.app-main {
+  flex: 1;
+  padding: 2rem;
+  display: flex;
+  justify-content: center;
+}
+
+.authenticated-content {
+  display: flex;
+  width: 100%;
+  max-width: 1200px;
+  gap: 2rem;
+}
+
+.app-sidebar {
+  width: 300px;
+  background-color: white;
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.app-content {
+  flex: 1;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+}
+
+.app-footer {
+  text-align: center;
+  padding: 1rem;
+  margin-top: 2rem;
+  color: #555;
+  font-size: 0.9rem;
+}
+
+/* 로딩 상태 */
+.loading-container {
+  text-align: center;
+  padding: 3rem;
+}
+
+.loading-container h2 {
+  margin-bottom: 1rem;
+  color: #30475e;
+}
+
+.loading-message {
+  padding: 2rem;
+  text-align: center;
+  color: #777;
+}
+
+/* Firebase 테스트 패널 */
+.firebase-test-panel {
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  padding: 1rem;
+}
+
+.firebase-test-panel h3 {
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+  color: #30475e;
+}
+
+.status-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #eee;
+}
+
+.status-item:last-child {
+  border-bottom: none;
+}
+
+.status-label {
+  font-weight: 600;
+  color: #555;
+}
+
+.status-value {
+  color: #777;
+  word-break: break-all;
+}
+
+.status-value.success {
+  color: #2ecc71;
+}
+
+.status-value.error {
+  color: #e74c3c;
+}
+
+/* 로그인 폼 */
+.login-container {
+  width: 100%;
+  max-width: 400px;
+}
+
+.login-form {
+  background-color: white;
+  border-radius: 8px;
+  padding: 2rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.login-form h2 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: #30475e;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: #555;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+.error-message {
+  color: #e74c3c;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+}
+
+.login-form button[type="submit"] {
+  width: 100%;
+  padding: 0.8rem;
+  background-color: #30475e;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: 500;
+  margin-bottom: 1rem;
+  transition: background-color 0.2s ease;
+}
+
+.login-form button[type="submit"]:hover {
+  background-color: #263747;
+}
+
+.login-form button[type="submit"]:disabled {
+  background-color: #999;
+  cursor: not-allowed;
+}
+
+.form-switch {
+  text-align: center;
+}
+
+.form-switch button {
+  background-color: transparent;
+  border: none;
+  color: #30475e;
+  font-size: 0.9rem;
+  text-decoration: underline;
+}
+
+/* 채팅 창 */
+.chat-window {
+  display: flex;
+  flex-direction: column;
+  height: 500px;
+}
+
+.chat-header {
+  padding: 1rem;
+  border-bottom: 1px solid #eee;
+}
+
+.chat-header h3 {
+  font-size: 1.2rem;
+  color: #30475e;
+}
+
+.messages-container {
+  flex: 1;
+  padding: 1rem;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.empty-chat {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  color: #999;
+}
+
+.message {
+  max-width: 70%;
+  padding: 0.8rem 1rem;
+  border-radius: 8px;
+}
+
+.user-message {
+  align-self: flex-end;
+  background-color: #30475e;
+  color: white;
+}
+
+.assistant-message {
+  align-self: flex-start;
+  background-color: #f1f1f1;
+  color: #333;
+}
+
+.message-content {
+  word-break: break-word;
+}
+
+.message-timestamp {
+  font-size: 0.7rem;
+  margin-top: 0.3rem;
+  opacity: 0.7;
+  text-align: right;
+}
+
+.chat-controls {
+  padding: 1rem;
+  border-top: 1px solid #eee;
+  display: flex;
+  justify-content: center;
+}
+
+.test-button {
+  padding: 0.7rem 1.5rem;
+  background-color: #30475e;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
+}
+
+.test-button:hover {
+  background-color: #263747;
+}
+
+.test-button:disabled {
+  background-color: #999;
+  cursor: not-allowed;
+}

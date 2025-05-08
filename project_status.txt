@@ -1,0 +1,117 @@
+# Venom Voice 프로젝트 현황 보고서
+
+## 프로젝트 개요
+- 프로젝트명: Venom Voice
+- 목표: GPT 고급음성모드처럼 실시간 대화가 가능한 음성 비서 시스템 구축
+- 아키텍처: React(프론트엔드) + FastAPI(백엔드) + Firebase(DB)
+- 주요 기능: STT(Whisper) → DeepSeek API → TTS(Zonos)
+
+## 현재 진행 상황 (2025-05-05)
+
+### 1. 프로젝트 초기 구조
+- 기본 폴더 구조 설정 완료 (Front/venom-voice, Back/chatbot)
+- 프론트엔드 React/Vite 설정 완료
+
+### 2. 프론트엔드 개발 현황
+- 기본 컴포넌트 구조 생성 완료
+  - 오디오 녹음(AudioRecorder) 컴포넌트
+  - 채팅(ChatWindow) 컴포넌트
+  - 인증(LoginForm) 컴포넌트
+  - 로딩 애니메이션 컴포넌트
+- Zustand 상태 관리 설정 완료
+- API 통신 모듈 설계 완료
+- Firebase 연결 설정 준비 완료 (환경 변수 파일 생성)
+- CSS 스타일링 기본 구조 완료
+
+### 3. 백엔드 개발 현황
+- FastAPI 가상환경 설정 완료
+- 기본 구조 아직 미개발
+
+### 4. Firebase 설정
+- Firebase 프로젝트 아직 미생성
+- 인증 정보 아직 미설정
+
+## 다음 진행 계획
+
+### 단기 계획 (즉시)
+1. Firebase 프로젝트 생성 및 연결 테스트
+   - 인증 정보 .env 파일에 입력
+   - 기본 인증 및 Firestore 테스트
+
+2. 백엔드 개발
+   - FastAPI 기본 구조 설정
+   - Whisper STT 서비스 연동
+   - DeepSeek API 연결 설정
+
+### 중기 계획
+1. Docker를 통한 Zonos TTS 설치 및 세팅
+2. 프론트엔드-백엔드 전체 파이프라인 연결
+3. STT-LLM-TTS 통합 테스트
+4. 음성 중단 및 VAD 기능 구현
+
+### 장기 계획
+1. 사용자 인터페이스 개선
+2. 대화 기록 관리 및 조회 기능 구현
+3. 배포 준비 (Netlify + Render)
+
+## 이슈 및 고려사항
+- TTS 긴 문장 분할 처리 로직 필요 (100자 미만으로 분할)
+- 음성 인식 중단 기능을 위한 Web Audio API 및 VAD 기술 연구 필요
+- 실시간 처리를 위한 최적화 필요
+
+## 기술 스택
+- 프론트엔드: React/Vite,NextJS Zustand, Lottie-web
+- 백엔드: Python/FastAPI
+- 데이터베이스: Firebase Firestore
+- AI 모델: Whisper(OpenAI), DeepSeek API, Zonos TTS
+- 배포: Netlify(프론트), Render(백엔드)
+
+
+
+0506 상태
+Firebase Testing 해야하는데
+그전에 mcp 연결 확인해야함
+firebase mcp 연결부터가 안되고 있음 => 처리함 이제 firebase Testing 하면 됨
+
+# Cloud Firestore 
+- 규칙
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // 사용자 문서는 인증된 사용자만 접근 가능하며, 자신의 문서만 읽고 쓸 수 있음
+    match /users/{userId} {
+      allow read, update, delete: if request.auth != null && request.auth.uid == userId;
+      allow create: if request.auth != null;
+    }
+    
+    // 대화는 인증된 사용자만 접근 가능하며, 자신의 대화만 읽고 쓸 수 있음
+    match /conversations/{conversationId} {
+      allow read, write: if request.auth != null && request.auth.uid == resource.data.userId;
+      allow create: if request.auth != null && request.auth.uid == request.resource.data.userId;
+    }
+  }
+}
+이렇게 만듬
+
+- 데이터
+컬렉션
+-- conversations - saP58Him4xO7Y2BXjnn9 - createdAt, messages(araay)[map-content(string),contetType(string),id(string),role(string),timestamp(timestamp)], title(string), userId(string)
+-- users - 문서id - 여러 종류로 만들어둔 상태
+
+#Realtime Database
+(참조 url) https://trainvenomvoice-default-rtdb.firebaseio.com/
+
+#Authentication
+- 로그인 방법에 이메일/비밀번호 활성화 (사용자 uuid CdP73c5pClgz62dAKBPSeQxcVaD2 )
+
+#프로젝트 설정에 서비스계정에 Firebase Admin SDK 비공개 키의 경우 일단
+# C:\src\abc\Front\trainvenomvoice-firebase-adminsdk-fbsvc-f7ac152b28.json 여기다가 둠
+
+
+05-08 프론트 부분 쓰잘데기 없는 부분 많아서 그냥 다 삭제해버리고
+단계별 시작중
+
+현재 firebase 연동 및 testing까지 진행됨
+
+
+
