@@ -6,7 +6,7 @@
 - 아키텍처: React(프론트엔드) + FastAPI(백엔드) + Firebase(DB)
 - 주요 기능: STT(Whisper) → DeepSeek API → TTS(Zonos)
 
-## 현재 진행 상황 (2025-05-05)
+## 현재 진행 상황 (2025-05-12)
 
 ### 1. 프로젝트 초기 구조
 - 기본 폴더 구조 설정 완료 (Front/venom-voice, Back/chatbot)
@@ -20,31 +20,34 @@
   - 로딩 애니메이션 컴포넌트
 - Zustand 상태 관리 설정 완료
 - API 통신 모듈 설계 완료
-- Firebase 연결 설정 준비 완료 (환경 변수 파일 생성)
+- Firebase 연결 설정 완료 (환경 변수 파일 생성)
 - CSS 스타일링 기본 구조 완료
 
 ### 3. 백엔드 개발 현황
 - FastAPI 가상환경 설정 완료
-- 기본 구조 아직 미개발
+- 백엔드 기본 구조 설정 완료
+- Zonos TTS 구현 완료
+- 아직 Whisper STT 및 DeepSeek API 연동 미구현
 
 ### 4. Firebase 설정
-- Firebase 프로젝트 아직 미생성
-- 인증 정보 아직 미설정
+- Firebase 프로젝트 생성 완료
+- Firebase 인증 및 Firestore 설정 완료
+- 테스트 완료
 
 ## 다음 진행 계획
 
 ### 단기 계획 (즉시)
-1. Firebase 프로젝트 생성 및 연결 테스트
-   - 인증 정보 .env 파일에 입력
-   - 기본 인증 및 Firestore 테스트
-
-2. 백엔드 개발
-   - FastAPI 기본 구조 설정
-   - Whisper STT 서비스 연동
-   - DeepSeek API 연결 설정
+1. Zonos TTS 설치 및 테스트
+   - Docker 컨테이너 설치 및 실행
+   - API 연동 테스트
+   
+2. Whisper STT 구현
+   - Whisper 모델 설치
+   - STT 모듈 구현
+   - API 엔드포인트 추가
 
 ### 중기 계획
-1. Docker를 통한 Zonos TTS 설치 및 세팅
+1. DeepSeek API 연동 구현
 2. 프론트엔드-백엔드 전체 파이프라인 연결
 3. STT-LLM-TTS 통합 테스트
 4. 음성 중단 및 VAD 기능 구현
@@ -55,63 +58,86 @@
 3. 배포 준비 (Netlify + Render)
 
 ## 이슈 및 고려사항
-- TTS 긴 문장 분할 처리 로직 필요 (100자 미만으로 분할)
+- TTS 긴 문장 분할 처리 로직 필요 (100자 미만으로 분할) -> 구현 완료
 - 음성 인식 중단 기능을 위한 Web Audio API 및 VAD 기술 연구 필요
 - 실시간 처리를 위한 최적화 필요
 
 ## 기술 스택
-- 프론트엔드: React/Vite,NextJS Zustand, Lottie-web
+- 프론트엔드: React/Vite, NextJS, Zustand, Lottie-web
 - 백엔드: Python/FastAPI
 - 데이터베이스: Firebase Firestore
 - AI 모델: Whisper(OpenAI), DeepSeek API, Zonos TTS
 - 배포: Netlify(프론트), Render(백엔드)
 
+# 최근 업데이트 (2025-05-12)
+
+Zonos TTS 모듈 구현 완료:
+- Docker를 사용하여 Zonos TTS 서버 설정
+- FastAPI를 사용한 TTS API 엔드포인트 구현
+- TTS 모듈 테스트 스크립트 구현
+- 긴 텍스트 분할 처리 로직 구현
+
+다음 단계:
+- Zonos TTS Docker 설정 및 테스트
+- Whisper STT 모듈 구현
+- DeepSeek API 연동 구현
+
+05월 20일 
+테스트 단계에서 
+현재 일단
+docker 컨테이너 만들어서 실행시켜야하는데
+컨데이너가 없는 상태
+
+백엔드 부분의 app 부분 삭제 하고 
+백엔드 부분만 다시 진행해야함
 
 
-0506 상태
-Firebase Testing 해야하는데
-그전에 mcp 연결 확인해야함
-firebase mcp 연결부터가 안되고 있음 => 처리함 이제 firebase Testing 하면 됨
+https://github.com/open-mmlab/Amphion?tab=readme-ov-file
+여기에서 installation 부분에서 
 
-# Cloud Firestore 
-- 규칙
-rules_version = '2';
-service cloud.firestore {
-  match /databases/{database}/documents {
-    // 사용자 문서는 인증된 사용자만 접근 가능하며, 자신의 문서만 읽고 쓸 수 있음
-    match /users/{userId} {
-      allow read, update, delete: if request.auth != null && request.auth.uid == userId;
-      allow create: if request.auth != null;
-    }
-    
-    // 대화는 인증된 사용자만 접근 가능하며, 자신의 대화만 읽고 쓸 수 있음
-    match /conversations/{conversationId} {
-      allow read, write: if request.auth != null && request.auth.uid == resource.data.userId;
-      allow create: if request.auth != null && request.auth.uid == request.resource.data.userId;
-    }
-  }
-}
-이렇게 만듬
+git clone https://github.com/open-mmlab/Amphion.git
+cd Amphion
 
-- 데이터
-컬렉션
--- conversations - saP58Him4xO7Y2BXjnn9 - createdAt, messages(araay)[map-content(string),contetType(string),id(string),role(string),timestamp(timestamp)], title(string), userId(string)
--- users - 문서id - 여러 종류로 만들어둔 상태
+# Install Python Environment
+conda create --name amphion python=3.9.15
+conda activate amphion
 
-#Realtime Database
-(참조 url) https://trainvenomvoice-default-rtdb.firebaseio.com/
+# Install Python Packages Dependencies
+sh env.sh => 의 경우 vsc 터미널(cmd) 에서 실행(bash env.sh) 가 안되어서 
+pip install 을 터미널에 직접 복사 붙여넣기 하여서 진행 하였는데 
 
-#Authentication
-- 로그인 방법에 이메일/비밀번호 활성화 (사용자 uuid CdP73c5pClgz62dAKBPSeQxcVaD2 )
+[[ fairseq 설치 실패 // pymcd, openai-whisper, frechet_audio_distance, asteroid, resemblyzer, vector-quantize-pytorch==1.12.5 설치 중
+fastdtw 종속성에서 Cython 컴파일 오류가 발생했습니다 // pysptk 관련 경고 메시지
+여러 버전의 패키지 메타데이터 불일치 경고가 있었습니다. ]] => 이렇게 문제가 있는 상태 
 
-#프로젝트 설정에 서비스계정에 Firebase Admin SDK 비공개 키의 경우 일단
-# C:\src\abc\Front\trainvenomvoice-firebase-adminsdk-fbsvc-f7ac152b28.json 여기다가 둠
+단계별 진행 완료 상태 
 
-
-05-08 프론트 부분 쓰잘데기 없는 부분 많아서 그냥 다 삭제해버리고
-단계별 시작중
-
-현재 firebase 연동 및 testing까지 진행됨
+claude 에서 구현하라는데로 구현하면 될거 같은데 ?
 
 
 
+05월 21일 현재 백엔드 부분 문제있어
+
+python download_checkpoint.py --model-id amphion/maskgct --save-dir C\src\asd\Amphion\Amphion\pretrainer --output-name metis-korean-base.pth => copy_checkpoint.py =>
+fix_amphion_structure.py => test_amphion.py => 모듈 없다고 떠서 => metis_requirements.txt 파일 만들고 실행 => 이후에 문제 있다고 뜨는것들은
+pip install 하고 metis_requirements.txt 하단에 추가 해두었음
+=> 
+http://localhost:8000/status => http://localhost:8000/status => 문제는 없는데 cuda 부분이 문제 이긴한데 일단 보류해두 됨
+http://localhost:8000/tts/check => 모듈 임포트 할수 없다고 뜸
+http://localhost:8000/docs#/ => 문제는 확인되지 않고 있는 상태
+
+터미널 로그를 물어봐야하는데 현재 일단 모듈 불러오는게 그대로 안되고 잇음 이유를 찾아야하는데 내가 봤을땐
+1. 경로 문제 2. 파일이 없음 3. 나도 모름 
+
+=> 문제의 경우 
+C:\src\asd\Amphion\Amphion\models\tts\maskgct\g2p\sources\g2p_chinese_model 더미 문제,
+tts_serivce 코드적 문제,
+C:\src\asd\Amphion\Amphion\models\tts\maskgct\g2p\g2p\mandarin.py 에서 exit 주석처리 함 
+
+하여서 해결함 테스팅 부분 해결
+
+
+
+
+
+순으로 해둔 상태임 
