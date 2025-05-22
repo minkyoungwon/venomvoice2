@@ -11,6 +11,10 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 
+from routes import stt, tts, chat
+
+app = FastAPI()
+
 # 로깅 설정
 logging.basicConfig(
     level=logging.INFO,
@@ -53,29 +57,38 @@ try:
 except Exception as e:
     logger.error(f"TTS 라우터 로드 실패: {e}")
 
-# STT와 Chat 라우터는 아직 구현되지 않았으므로 주석 처리
-# try:
-#     from routes import stt
-#     app.include_router(stt.router)
-# except Exception as e:
-#     logger.error(f"STT 라우터 로드 실패: {e}")
 
-# try:
-#     from routes import chat
-#     app.include_router(chat.router)
-# except Exception as e:
-#     logger.error(f"Chat 라우터 로드 실패: {e}")
 
+
+
+###### 이 부분 
+# STT와 Chat 라우터
+try:
+    from routes import stt
+    app.include_router(stt.router)
+except Exception as e:
+    logger.error(f"STT 라우터 로드 실패: {e}")
+
+try:
+    from routes import chat
+    app.include_router(chat.router)
+except Exception as e:
+    logger.error(f"Chat 라우터 로드 실패: {e}")
+
+
+# 기본 엔드포인트
 @app.get("/")
 async def root():
-    """API 루트 엔드포인트"""
-    return {
-        "message": "Metis 기반 음성 챗봇 서버입니다.",
-        "endpoints": {
-            "tts": "/tts/synthesize - 텍스트를 음성으로 변환",
-            "status": "/status - 시스템 상태 확인"
-        }
-    }
+    return {"message": "Chatbot API 서버가 실행 중입니다."}
+
+@app.get("/tts/check")
+async def check_tts():
+    return {"status": "ok", "message": "TTS 서비스가 실행 중입니다."}
+
+
+
+
+
 
 @app.get("/status")
 async def status():

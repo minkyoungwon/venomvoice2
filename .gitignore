@@ -15,8 +15,67 @@ __pycache__/
 *.dylib
 
 
-.vscode/
 
+
+# 환경설정 및 민감정보
+.env
+*.env
+
+.vscode/
 
 # Firebase Admin SDK
 trainvenomvoice-firebase-adminsdk-*.json
+
+
+
+
+
+원래는 이렇게 하셔야합니다 
+
+# # Python 가상환경 및 캐시
+# venv/
+# env/
+# Lib/
+
+# # 캐시
+# __pycache__/
+# *.pyc
+# *.pyo
+# *.pyd
+
+# # 바이너리 및 대용량 파일
+# *.dll
+# *.lib
+# *.exe
+# *.so
+# *.dylib
+# *.pt
+# *.pth
+# *.ckpt
+# *.h5
+# *.onnx
+# *.log
+
+# # 설치 정보 # pip install한 라이브러리 목록
+# *.egg-info/
+# *.dist-info/
+# build/
+# dist/
+
+# # 환경설정 및 민감정보
+# .env
+# *.env
+
+# # IDE/에디터
+# .vscode/
+# .idea/
+
+# # Jupyter
+# .ipynb_checkpoints/
+
+# # 시스템 파일
+# .DS_Store
+# Thumbs.db
+
+# # Firebase Admin SDK
+# trainvenomvoice-firebase-adminsdk-*.json

@@ -460,3 +460,79 @@ button {
   background-color: #999;
   cursor: not-allowed;
 }
+
+
+/* 음성 관련 스타일 */
+.voice-button {
+  background-color: #30475e;
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  color: white;
+  cursor: pointer;
+  margin-right: 10px;
+  transition: all 0.3s ease;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  outline: none;
+}
+
+.voice-button::before {
+  content: '\1F399'; /* 마이크 이모지 */
+  font-size: 18px;
+}
+
+.voice-button.recording {
+  background-color: #dc3545;
+  animation: pulse 1.5s infinite;
+}
+
+.voice-button.recording::before {
+  content: '\23F9'; /* 정지 아이콘 이모지 */
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(220, 53, 69, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(220, 53, 69, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(220, 53, 69, 0);
+  }
+}
+
+/* 상태 표시기 */
+.status-indicator {
+  font-size: 0.8rem;
+  color: #6c757d;
+  padding: 5px 10px;
+  background-color: #f8f9fa;
+  border-radius: 12px;
+  display: inline-block;
+  margin-left: 10px;
+}
+
+/* 음성 애니메이션 컨테이너 */
+.animation-container {
+  transition: all 0.3s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* 입력 영역 조정 */
+.chat-input-container {
+  display: flex;
+  padding: 10px 15px;
+  align-items: center;
+}
+
+.voice-controls {
+  display: flex;
+  align-items: center;
+}
