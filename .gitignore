@@ -14,8 +14,8 @@ __pycache__/
 *.so
 *.dylib
 
-
-
+# 용량 커서 뺴둠
+Back/venv_chat/models
 
 # 환경설정 및 민감정보
 .env

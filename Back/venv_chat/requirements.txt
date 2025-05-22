@@ -1,21 +1,47 @@
-
-fastapi>=0.95.0
-uvicorn>=0.21.0
+# FastAPI and server related
+fastapi>=0.110.0
+uvicorn>=0.25.0
 python-multipart>=0.0.6
-pydantic>=1.10.7
+
+# Pydantic v2 (compatible with FastAPI)
+pydantic>=2.5.0
+
+# Audio processing libraries
 soundfile>=0.12.1
+librosa>=0.10.0
+ffmpeg-python>=0.2.0
+
+# Math and scientific computing
 numpy>=1.23.0
 scipy>=1.9.0
-torch>=2.0.0
-librosa>=0.10.0
-safetensors>=0.3.1
+
+# PyTorch (compatible with Transformers)
+torch>=2.1.0
+torchaudio>=2.1.0
+
+# AI/ML libraries (latest stable versions)
+transformers>=4.40.0
+safetensors>=0.4.0
+huggingface_hub>=0.20.0
+peft>=0.8.0
+
+# Whisper STT related packages (latest versions)
+faster-whisper>=1.1.0
+openai-whisper>=20240930
+
+# Additional utilities
 langid>=1.1.6
 python-dotenv>=1.0.0
 phonemizer>=3.2.0
-transformers>=4.31.0
-peft>=0.4.0
-huggingface_hub>=0.16.4
 
-
+# WebSocket and development tools
 websockets>=11.0.3  
-watchfiles>=0.19.0  
+watchfiles>=0.19.0
+
+
+# Optional packages (install separately if needed)
+# pyaudio>=0.2.11  # May cause compilation issues on Windows
+# For PyAudio installation:
+# pip install pipwin
+# pipwin install pyaudio
+# Or use conda: conda install pyaudio
